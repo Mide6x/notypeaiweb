@@ -52,6 +52,14 @@ const Waitlist = () => {
       }
 
       setEmail("");
+      toast({
+        title: "Success",
+        description:
+          "Yay! You're in! 🎉 We've just slid into your inbox with all the deets",
+        status: "success",
+        duration: 5000,
+        isClosable: true,
+      });
     } catch (error: unknown) {
       console.error("Form submission error:", error);
       toast({
