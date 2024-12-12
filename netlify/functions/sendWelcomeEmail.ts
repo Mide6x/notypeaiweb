@@ -41,13 +41,12 @@ const handler: Handler = async (event) => {
       html: `
         <div style="max-width: 600px; margin: 0 auto; font-family: 'Inter', sans-serif;">
           <img src="https://notypeai.netlify.app/mail.png" alt="Notype.ai Header" style="width: 100%; height: auto; margin-bottom: 24px;" />
-          <h2 style="color: #2D3748; margin-bottom: 16px;">Hey ${email}! 👋</h2>
+          <h2 style="color: #2D3748; margin-bottom: 16px; font-size: 24px;">Hey ${email}! 👋</h2>
           <p style="color: #4A5568; line-height: 1.6;">Thank you for joining the Notype.ai waitlist. We're excited to have you on board!</p>
           <p style="color: #4A5568; line-height: 1.6;">We're working hard to bring you the best voice-to-text experience on the web. You'll be among the first to know when we launch.</p>
           <p style="color: #4A5568; line-height: 1.6;">Stay tuned!</p>
           <br/>
           <div style="margin-top: 24px;">
-            <img src="https://notypeai.netlify.app/icon.png" alt="Notype.ai Icon" style="width: 32px; height: 32px; margin-right: 8px; vertical-align: middle;" />
             <p style="color: #4A5568; display: inline-block; vertical-align: middle; margin: 0;">With love 💕,<br/>Mide from Notype.ai</p>
           </div>
         </div>
