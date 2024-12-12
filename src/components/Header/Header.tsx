@@ -1,9 +1,25 @@
-import { Box, Container, Flex, Button, Image } from "@chakra-ui/react";
+import {
+  Box,
+  Container,
+  Flex,
+  Button,
+  Image,
+  IconButton,
+  useColorMode,
+} from "@chakra-ui/react";
 import { Link as RouterLink } from "react-router-dom";
+import { FaMoon, FaSun } from "react-icons/fa";
 
 const Header = () => {
+  const { colorMode, toggleColorMode } = useColorMode();
+
   return (
-    <Box as="header" py={4} bg="white" boxShadow="sm">
+    <Box
+      as="header"
+      py={4}
+      bg={colorMode === "dark" ? "gray.900" : "white"}
+      boxShadow="sm"
+    >
       <Container maxW="container.xl">
         <Flex justify="space-between" align="center">
           <Flex
@@ -17,15 +33,24 @@ const Header = () => {
               Notype.ai
             </Box>
           </Flex>
-          <Button
-            colorScheme="purple"
-            variant="ghost"
-            onClick={() =>
-              document.getElementById("waitlist")?.scrollIntoView()
-            }
-          >
-            Join Waitlist
-          </Button>
+          <Flex gap={4} align="center">
+            <IconButton
+              aria-label="Toggle dark mode"
+              icon={colorMode === "dark" ? <FaSun /> : <FaMoon />}
+              onClick={toggleColorMode}
+              variant="ghost"
+              colorScheme="purple"
+            />
+            <Button
+              colorScheme="purple"
+              variant="ghost"
+              onClick={() =>
+                document.getElementById("waitlist")?.scrollIntoView()
+              }
+            >
+              Join Waitlist
+            </Button>
+          </Flex>
         </Flex>
       </Container>
     </Box>

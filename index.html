@@ -8,6 +8,14 @@
     <title>Notype.ai - Voice to Text, Instantly</title>
   </head>
   <body>
+    <script>
+      // Check if there's a saved color mode preference
+      let colorMode = localStorage.getItem('chakra-ui-color-mode');
+      if (!colorMode) {
+        // If no preference is saved, set the default to light
+        localStorage.setItem('chakra-ui-color-mode', 'light');
+      }
+    </script>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>

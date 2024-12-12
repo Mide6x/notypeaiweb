@@ -1,9 +1,17 @@
-import { Box, Container, Text, Stack, Link } from "@chakra-ui/react";
+import {
+  Box,
+  Container,
+  Text,
+  Stack,
+  Link,
+  useColorMode,
+} from "@chakra-ui/react";
 import { Link as RouterLink } from "react-router-dom";
 
 const Footer = () => {
+  const { colorMode } = useColorMode();
   return (
-    <Box bg="gray.50" py={8}>
+    <Box bg={colorMode === "dark" ? "gray.900" : "gray.50"} py={8}>
       <Container maxW="container.xl">
         <Stack
           direction={{ base: "column", md: "row" }}

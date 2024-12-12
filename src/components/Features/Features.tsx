@@ -6,6 +6,7 @@ import {
   Text,
   Stack,
   Flex,
+  useColorMode,
 } from "@chakra-ui/react";
 import { FaMicrophone, FaKeyboard, FaChrome, FaLock } from "react-icons/fa";
 
@@ -16,6 +17,8 @@ interface FeatureProps {
 }
 
 const Feature = ({ title, text, icon }: FeatureProps) => {
+  const { colorMode } = useColorMode();
+
   return (
     <Stack align="center" textAlign="center">
       <Flex
@@ -31,14 +34,16 @@ const Feature = ({ title, text, icon }: FeatureProps) => {
         <Icon as={icon} w={8} h={8} />
       </Flex>
       <Text fontWeight={600}>{title}</Text>
-      <Text color="gray.600">{text}</Text>
+      <Text color={colorMode === "dark" ? "gray.400" : "gray.600"}>{text}</Text>
     </Stack>
   );
 };
 
 const Features = () => {
+  const { colorMode } = useColorMode();
+
   return (
-    <Box bg="gray.50" py={20}>
+    <Box bg={colorMode === "dark" ? "gray.800" : "gray.50"} py={20}>
       <Container maxW="container.xl">
         <SimpleGrid columns={{ base: 1, md: 4 }} spacingX={10} spacingY={10}>
           <Feature

@@ -7,9 +7,11 @@ import {
   Button,
   useToast,
   Box,
+  useColorMode,
 } from "@chakra-ui/react";
 
 const Waitlist = () => {
+  const { colorMode } = useColorMode();
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
   const toast = useToast();
@@ -62,7 +64,11 @@ const Waitlist = () => {
   };
 
   return (
-    <Box id="waitlist" bg="purple.50" py={20}>
+    <Box
+      id="waitlist"
+      bg={colorMode === "dark" ? "gray.800" : "purple.50"}
+      py={20}
+    >
       <Container maxW="container.md">
         <Stack spacing="8" align="center">
           <Heading textAlign="center">Join the Waitlist</Heading>
@@ -86,7 +92,18 @@ const Waitlist = () => {
                 onChange={(e) => setEmail(e.target.value)}
                 type="email"
                 required
-                bg="white"
+                bg={colorMode === "dark" ? "gray.700" : "white"}
+                _placeholder={{
+                  color: colorMode === "dark" ? "gray.400" : "gray.500",
+                }}
+                borderColor={colorMode === "dark" ? "gray.600" : "gray.200"}
+                _hover={{
+                  borderColor: colorMode === "dark" ? "gray.500" : "gray.300",
+                }}
+                _focus={{
+                  borderColor: "purple.500",
+                  boxShadow: "0 0 0 1px var(--chakra-colors-purple-500)",
+                }}
               />
               <Button
                 colorScheme="purple"
