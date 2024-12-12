@@ -41,13 +41,16 @@ const Waitlist = () => {
         throw new Error("Network response was not ok");
       }
 
-      toast({
-        title: "Success!",
-        description: "You've been added to our waitlist.",
-        status: "success",
-        duration: 5000,
-        isClosable: true,
-      });
+      // Then send welcome email
+      try {
+        await fetch("/.netlify/functions/sendWelcomeEmail", {
+          method: "POST",
+          body: JSON.stringify({ email }),
+        });
+      } catch (emailError) {
+        console.error("Failed to send welcome email:", emailError);
+      }
+
       setEmail("");
     } catch (error: unknown) {
       console.error("Form submission error:", error);
