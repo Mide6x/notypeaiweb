@@ -14,7 +14,7 @@ const TermsOfService = () => {
       <Container maxW="container.md">
         <VStack spacing={8} align="stretch">
           <Heading>Terms of Service</Heading>
-          <Text>Last updated: March 2024</Text>
+          <Text>Last updated: December 14, 2024</Text>
 
           <VStack spacing={6} align="stretch">
             <Box>

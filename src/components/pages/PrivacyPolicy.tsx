@@ -14,7 +14,7 @@ const PrivacyPolicy = () => {
       <Container maxW="container.md">
         <VStack spacing={8} align="stretch">
           <Heading>Privacy Policy</Heading>
-          <Text>Last updated: March 2024</Text>
+          <Text>Last updated: December 16, 2024</Text>
 
           <VStack spacing={6} align="stretch">
             <Box>
