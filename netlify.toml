@@ -7,12 +7,6 @@
   node_bundler = "esbuild"
   included_files = ["dist/**"]
 
-[[redirects]]
-  from = "/*"
-  to = "/index.html"
-  status = 200
-  force = true
-
 [[headers]]
   for = "/*"
   [headers.values]
@@ -21,6 +15,27 @@
     X-Content-Type-Options = "nosniff"
     Referrer-Policy = "strict-origin-when-cross-origin"
     Cache-Control = "public, max-age=0, must-revalidate"
+
+[[headers]]
+  for = "/*.js"
+  [headers.values]
+    Content-Type = "text/javascript"
+
+[[headers]]
+  for = "/*.css"
+  [headers.values]
+    Content-Type = "text/css"
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/assets/*"
+  to = "/assets/:splat"
+  status = 200
 
 [[redirects]]
   from = "/privacy"
