@@ -18,7 +18,11 @@ const Hero = () => {
         <Button
           size="lg"
           colorScheme="purple"
-          onClick={() => document.getElementById("waitlist")?.scrollIntoView()}
+          onClick={() =>
+            document.getElementById("waitlist")?.scrollIntoView({
+              behavior: "smooth",
+            })
+          }
         >
           Join Waitlist
         </Button>
