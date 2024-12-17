@@ -115,7 +115,7 @@ const PrivacyPolicy = () => {
               </Heading>
               <Text>
                 If you have any questions about this Privacy Policy, please
-                contact us at privacy@notype.ai
+                contact us at adewoleolumide05@gmail.com
               </Text>
             </Box>
           </VStack>
