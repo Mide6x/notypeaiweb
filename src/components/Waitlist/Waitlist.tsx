@@ -8,6 +8,7 @@ import {
   useToast,
   Box,
   useColorMode,
+  VStack,
 } from "@chakra-ui/react";
 
 const Waitlist = () => {
@@ -77,12 +78,13 @@ const Waitlist = () => {
   return (
     <Box
       id="waitlist"
-      bg={colorMode === "dark" ? "gray.800" : "purple.50"}
-      py={20}
+      bg={colorMode === "dark" ? "gray.900" : "gray.50"}
+      py={8}
+      width="100%"
     >
-      <Container maxW="container.md">
-        <Stack spacing="8" align="center">
-          <Heading textAlign="center">Join the Waitlist</Heading>
+      <Container maxW="100%" px={4}>
+        <VStack spacing={8} align="stretch" width="100%">
+          <Heading textAlign="center">Join Early Access</Heading>
           <form
             name="waitlist"
             method="POST"
@@ -95,6 +97,8 @@ const Waitlist = () => {
               direction={{ base: "column", md: "row" }}
               spacing="4"
               width="100%"
+              maxW="100%"
+              mx="auto"
             >
               <Input
                 name="email"
@@ -103,13 +107,13 @@ const Waitlist = () => {
                 onChange={(e) => setEmail(e.target.value)}
                 type="email"
                 required
-                bg={colorMode === "dark" ? "gray.700" : "white"}
+                bg={colorMode === "dark" ? "gray.800" : "white"}
                 _placeholder={{
                   color: colorMode === "dark" ? "gray.400" : "gray.500",
                 }}
-                borderColor={colorMode === "dark" ? "gray.600" : "gray.200"}
+                borderColor={colorMode === "dark" ? "gray.700" : "gray.200"}
                 _hover={{
-                  borderColor: colorMode === "dark" ? "gray.500" : "gray.300",
+                  borderColor: "purple.500",
                 }}
                 _focus={{
                   borderColor: "purple.500",
@@ -121,13 +125,13 @@ const Waitlist = () => {
                 loadingText="Joining..."
                 isLoading={loading}
                 type="submit"
-                width={{ base: "100%", md: "auto" }}
+                width={{ base: "100%", md: "200px" }}
               >
-                Join Now
+                Get Access
               </Button>
             </Stack>
           </form>
-        </Stack>
+        </VStack>
       </Container>
     </Box>
   );

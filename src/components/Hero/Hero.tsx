@@ -20,7 +20,7 @@ const Hero = () => {
           colorScheme="purple"
           onClick={() => document.getElementById("waitlist")?.scrollIntoView()}
         >
-          Join Waitlist
+          Join Early Access
         </Button>
       </Stack>
     </Container>

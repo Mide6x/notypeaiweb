@@ -6,12 +6,53 @@ import {
   Image,
   IconButton,
   useColorMode,
+  useDisclosure,
+  VStack,
+  Drawer,
+  DrawerBody,
+  DrawerHeader,
+  DrawerOverlay,
+  DrawerContent,
+  DrawerCloseButton,
 } from "@chakra-ui/react";
-import { Link as RouterLink } from "react-router-dom";
-import { FaMoon, FaSun } from "react-icons/fa";
+import { Link, Link as RouterLink } from "react-router-dom";
+import { FaMoon, FaSun, FaBars } from "react-icons/fa";
 
 const Header = () => {
   const { colorMode, toggleColorMode } = useColorMode();
+  const { isOpen, onOpen, onClose } = useDisclosure();
+
+  const MenuItems = () => (
+    <>
+      <IconButton
+        aria-label="Toggle dark mode"
+        icon={colorMode === "dark" ? <FaSun /> : <FaMoon />}
+        onClick={toggleColorMode}
+        variant="ghost"
+        colorScheme="purple"
+      />
+      <Button
+        colorScheme="purple"
+        variant="ghost"
+        onClick={() => {
+          document.getElementById("waitlist")?.scrollIntoView();
+          onClose();
+        }}
+      >
+        Join Early Access
+      </Button>
+      <Button
+        as={Link}
+        to="/login"
+        variant="ghost"
+        colorScheme="purple"
+        size={{ base: "sm", md: "md" }}
+        onClick={onClose}
+      >
+        Login
+      </Button>
+    </>
+  );
 
   return (
     <Box
@@ -33,24 +74,35 @@ const Header = () => {
               Notype.ai
             </Box>
           </Flex>
-          <Flex gap={4} align="center">
-            <IconButton
-              aria-label="Toggle dark mode"
-              icon={colorMode === "dark" ? <FaSun /> : <FaMoon />}
-              onClick={toggleColorMode}
-              variant="ghost"
-              colorScheme="purple"
-            />
-            <Button
-              colorScheme="purple"
-              variant="ghost"
-              onClick={() =>
-                document.getElementById("waitlist")?.scrollIntoView()
-              }
-            >
-              Join Waitlist
-            </Button>
+
+          {/* Desktop Menu */}
+          <Flex gap={4} align="center" display={{ base: "none", md: "flex" }}>
+            <MenuItems />
           </Flex>
+
+          {/* Mobile Menu Button */}
+          <IconButton
+            aria-label="Open menu"
+            icon={<FaBars />}
+            onClick={onOpen}
+            display={{ base: "flex", md: "none" }}
+            variant="ghost"
+            colorScheme="purple"
+          />
+
+          {/* Mobile Menu Drawer */}
+          <Drawer isOpen={isOpen} placement="right" onClose={onClose}>
+            <DrawerOverlay />
+            <DrawerContent>
+              <DrawerCloseButton />
+              <DrawerHeader>Menu</DrawerHeader>
+              <DrawerBody>
+                <VStack spacing={4} align="stretch">
+                  <MenuItems />
+                </VStack>
+              </DrawerBody>
+            </DrawerContent>
+          </Drawer>
         </Flex>
       </Container>
     </Box>
