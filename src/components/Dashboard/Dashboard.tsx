@@ -35,10 +35,18 @@ const Dashboard = () => {
   useEffect(() => {
     const fetchUser = async () => {
       try {
+        console.log("Fetching user data...");
         const response = await axios.get(
           `${import.meta.env.VITE_API_URL}/auth/user`,
-          { withCredentials: true }
+          {
+            withCredentials: true,
+            headers: {
+              Accept: "application/json",
+              "Content-Type": "application/json",
+            },
+          }
         );
+        console.log("User data received:", response.data);
         setUser(response.data);
       } catch (err) {
         const error = err as AxiosError<ErrorResponse>;
