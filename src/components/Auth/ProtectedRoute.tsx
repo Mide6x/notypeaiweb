@@ -40,13 +40,11 @@ const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
       }
     };
 
-    if (apiUrl) {
-      checkAuth();
-    }
+    checkAuth();
   }, [apiUrl, toast]);
 
   if (isAuthenticated === null) {
-    return null; // or a loading spinner
+    return null;
   }
 
   return isAuthenticated ? <>{children}</> : <Navigate to="/login" replace />;
