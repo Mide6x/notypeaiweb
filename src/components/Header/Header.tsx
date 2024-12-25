@@ -2,103 +2,135 @@ import {
   Box,
   Container,
   Flex,
-  Button,
-  Image,
+  HStack,
   IconButton,
+  Button,
   useColorMode,
   useDisclosure,
-  VStack,
   Drawer,
-  DrawerBody,
-  DrawerHeader,
   DrawerOverlay,
   DrawerContent,
   DrawerCloseButton,
+  DrawerBody,
+  VStack,
+  Link as ChakraLink,
+  Menu,
+  MenuButton,
+  MenuList,
+  MenuItem,
+  Avatar,
 } from "@chakra-ui/react";
-import { Link, Link as RouterLink } from "react-router-dom";
-import { FaMoon, FaSun, FaBars } from "react-icons/fa";
+import { HamburgerIcon, MoonIcon, SunIcon } from "@chakra-ui/icons";
+import { Link } from "react-router-dom";
+import { FaChrome } from "react-icons/fa";
 
-const Header = () => {
+interface HeaderProps {
+  isAuthenticated?: boolean;
+  user?: {
+    name: string;
+    picture: string;
+  };
+  onLogout?: () => void;
+}
+
+const Header = ({ isAuthenticated, user, onLogout }: HeaderProps) => {
   const { colorMode, toggleColorMode } = useColorMode();
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const MenuItems = () => (
     <>
-      <IconButton
-        aria-label="Toggle dark mode"
-        icon={colorMode === "dark" ? <FaSun /> : <FaMoon />}
-        onClick={toggleColorMode}
-        variant="ghost"
-        colorScheme="purple"
-      />
-      <Button
-        colorScheme="purple"
-        variant="ghost"
-        onClick={() => {
-          document.getElementById("waitlist")?.scrollIntoView();
-          onClose();
-        }}
-      >
-        Join Early Access
-      </Button>
-      <Button
-        as={Link}
-        to="/login"
-        variant="ghost"
-        colorScheme="purple"
-        size={{ base: "sm", md: "md" }}
-        onClick={onClose}
-      >
-        Login
-      </Button>
+      <ChakraLink as={Link} to="/">
+        Home
+      </ChakraLink>
+      {isAuthenticated ? (
+        <>
+          <ChakraLink as={Link} to="/dashboard">
+            Dashboard
+          </ChakraLink>
+          <Button
+            as="a"
+            href="https://chromewebstore.google.com/detail/notypeai/jddchfnkcmclhijghgplffidgkcjkedd"
+            target="_blank"
+            leftIcon={<FaChrome />}
+            colorScheme="purple"
+            size="sm"
+          >
+            Add to Chrome
+          </Button>
+        </>
+      ) : (
+        <>
+          <ChakraLink as={Link} to="/pricing">
+            Pricing
+          </ChakraLink>
+          <Button as={Link} to="/login" colorScheme="purple" size="sm">
+            Login
+          </Button>
+        </>
+      )}
     </>
   );
 
   return (
     <Box
-      as="header"
       py={4}
-      bg={colorMode === "dark" ? "gray.900" : "white"}
-      boxShadow="sm"
+      borderBottom="1px"
+      borderColor={colorMode === "dark" ? "gray.700" : "gray.200"}
     >
       <Container maxW="container.xl">
         <Flex justify="space-between" align="center">
-          <Flex
-            align="center"
-            as={RouterLink}
-            to="/"
-            _hover={{ textDecoration: "none" }}
-          >
-            <Image src="/ntype.png" alt="Notype.ai logo" h="24px" mr={2} />
-            <Box fontSize="xl" fontWeight="bold">
-              Notype.ai
-            </Box>
-          </Flex>
+          <ChakraLink as={Link} to="/" fontSize="xl" fontWeight="bold">
+            Notype.ai
+          </ChakraLink>
 
-          {/* Desktop Menu */}
-          <Flex gap={4} align="center" display={{ base: "none", md: "flex" }}>
+          {/* Desktop Navigation */}
+          <HStack spacing={8} display={{ base: "none", md: "flex" }}>
             <MenuItems />
-          </Flex>
+            <IconButton
+              aria-label="Toggle color mode"
+              icon={colorMode === "dark" ? <SunIcon /> : <MoonIcon />}
+              onClick={toggleColorMode}
+              variant="ghost"
+            />
+            {isAuthenticated && user && (
+              <Menu>
+                <MenuButton>
+                  <Avatar size="sm" src={user.picture} name={user.name} />
+                </MenuButton>
+                <MenuList>
+                  <MenuItem onClick={toggleColorMode}>
+                    {colorMode === "dark" ? "Light Mode" : "Dark Mode"}
+                  </MenuItem>
+                  <MenuItem onClick={onLogout}>Logout</MenuItem>
+                </MenuList>
+              </Menu>
+            )}
+          </HStack>
 
-          {/* Mobile Menu Button */}
+          {/* Mobile Navigation */}
           <IconButton
             aria-label="Open menu"
-            icon={<FaBars />}
+            icon={<HamburgerIcon />}
             onClick={onOpen}
             display={{ base: "flex", md: "none" }}
-            variant="ghost"
-            colorScheme="purple"
           />
 
-          {/* Mobile Menu Drawer */}
-          <Drawer isOpen={isOpen} placement="right" onClose={onClose}>
+          <Drawer isOpen={isOpen} onClose={onClose} placement="right">
             <DrawerOverlay />
             <DrawerContent>
               <DrawerCloseButton />
-              <DrawerHeader>Menu</DrawerHeader>
               <DrawerBody>
-                <VStack spacing={4} align="stretch">
+                <VStack spacing={4} align="stretch" mt={8}>
                   <MenuItems />
+                  {isAuthenticated && (
+                    <Button
+                      onClick={onLogout}
+                      colorScheme="red"
+                      variant="outline"
+                    >
+                      Logout
+                    </Button>
+                  )}
                 </VStack>
               </DrawerBody>
             </DrawerContent>
