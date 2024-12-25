@@ -61,12 +61,12 @@ const Dashboard = () => {
       <Sidebar />
       <Box
         flex="1"
-        ml="250px"
+        ml="220px"
         bg={colorMode === "dark" ? "gray.900" : "gray.50"}
-        minH="calc(100vh - 80px)"
-        mt="80px"
+        minH="calc(100vh - 64px)"
+        p={6}
       >
-        <Container maxW="container.xl" py={8}>
+        <Container maxW="container.xl">
           {user && (
             <Text mb={4} color="gray.500">
               Welcome, {user.name}

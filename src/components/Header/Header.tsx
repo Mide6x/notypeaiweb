@@ -73,12 +73,18 @@ const Header = ({ isAuthenticated, user, onLogout }: HeaderProps) => {
 
   return (
     <Box
-      py={4}
+      position="fixed"
+      top={0}
+      left={0}
+      right={0}
+      h="64px"
+      zIndex={1000}
+      bg={colorMode === "dark" ? "gray.800" : "white"}
       borderBottom="1px"
       borderColor={colorMode === "dark" ? "gray.700" : "gray.200"}
     >
-      <Container maxW="container.xl">
-        <Flex justify="space-between" align="center">
+      <Container maxW="container.xl" h="100%">
+        <Flex justify="space-between" align="center" h="100%">
           <ChakraLink as={Link} to="/" fontSize="xl" fontWeight="bold">
             Notype.ai
           </ChakraLink>

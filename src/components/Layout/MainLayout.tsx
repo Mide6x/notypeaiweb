@@ -74,7 +74,9 @@ const MainLayout = ({ children }: MainLayoutProps) => {
         user={user}
         onLogout={handleLogout}
       />
-      <Box flex="1">{children}</Box>
+      <Box flex="1" pt="64px">
+        {children}
+      </Box>
       <Footer />
     </Box>
   );
