@@ -15,15 +15,21 @@ const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
   useEffect(() => {
     const checkAuth = async () => {
       try {
-        await axios.get(`${apiUrl}/auth/user`, {
+        const response = await axios.get(`${apiUrl}/auth/user`, {
           withCredentials: true,
           headers: {
             Accept: "application/json",
             "Content-Type": "application/json",
           },
         });
-        setIsAuthenticated(true);
-      } catch {
+
+        if (response.data) {
+          setIsAuthenticated(true);
+        } else {
+          throw new Error("No user data");
+        }
+      } catch (error) {
+        console.error("Auth check failed:", error);
         setIsAuthenticated(false);
         toast({
           title: "Authentication Error",
@@ -34,7 +40,9 @@ const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
       }
     };
 
-    checkAuth();
+    if (apiUrl) {
+      checkAuth();
+    }
   }, [apiUrl, toast]);
 
   if (isAuthenticated === null) {
