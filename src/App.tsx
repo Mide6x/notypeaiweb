@@ -6,6 +6,7 @@ import Home from "./components/pages/Home";
 import LoginPage from "./components/pages/LoginPage";
 import PrivacyPolicy from "./components/pages/PrivacyPolicy";
 import TermsOfService from "./components/pages/TermsOfService";
+import DashboardPage from "./components/pages/DashboardPage";
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
             <Route path="/login" element={<LoginPage />} />
             <Route path="/privacy" element={<PrivacyPolicy />} />
             <Route path="/terms" element={<TermsOfService />} />
+            <Route path="/dashboard" element={<DashboardPage />} />
           </Routes>
         </MainLayout>
       </Router>
