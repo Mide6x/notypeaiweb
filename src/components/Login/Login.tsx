@@ -41,7 +41,7 @@ const Login = () => {
             Login to Notype.ai
           </Heading>
           <Text color="gray.500">
-            Use your Google account to sign in securely
+            Sign in or create an account instantly with Google
           </Text>
           <Button
             leftIcon={<FaGoogle />}
