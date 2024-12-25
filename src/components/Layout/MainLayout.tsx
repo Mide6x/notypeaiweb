@@ -59,8 +59,11 @@ const MainLayout = ({ children }: MainLayoutProps) => {
       setIsAuthenticated(false);
       setUser(undefined);
       navigate("/login");
-    } catch {
-      console.error("Logout failed");
+    } catch (error) {
+      console.error("Logout failed:", error);
+      setIsAuthenticated(false);
+      setUser(undefined);
+      navigate("/login");
     }
   };
 

@@ -30,7 +30,7 @@ interface HeaderProps {
     name: string;
     picture: string;
   };
-  onLogout?: () => void;
+  onLogout: () => void;
 }
 
 const Header = ({ isAuthenticated, user, onLogout }: HeaderProps) => {
