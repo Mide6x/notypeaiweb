@@ -13,11 +13,17 @@ const Login = () => {
   const { colorMode } = useColorMode();
 
   const handleGoogleLogin = () => {
+    console.log("Environment variables:", {
+      VITE_API_URL: import.meta.env.VITE_API_URL,
+      MODE: import.meta.env.MODE,
+    });
+
     const apiUrl = import.meta.env.VITE_API_URL;
     if (!apiUrl) {
       console.error("API URL is not defined");
       return;
     }
+    console.log("Redirecting to:", `${apiUrl}/auth/google`);
     window.location.href = `${apiUrl}/auth/google`;
   };
 

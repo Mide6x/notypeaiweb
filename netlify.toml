@@ -1,7 +1,10 @@
 [build]
   functions = "netlify/functions"
   publish = "dist"
-  command = "npm run build"
+  command = "VITE_API_URL=$VITE_API_URL npm run build"
+
+[build.environment]
+  VITE_API_URL = "https://notypeaiweb-backend.onrender.com"
 
 [functions]
   node_bundler = "esbuild"
