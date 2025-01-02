@@ -49,9 +49,11 @@ const Header = ({ isAuthenticated, user, onLogout }: HeaderProps) => {
 
   const MenuItems = () => (
     <>
-      <ChakraLink as={Link} to="/">
-        Home
-      </ChakraLink>
+      {!isAuthenticated && (
+        <ChakraLink as={Link} to="/">
+          Home
+        </ChakraLink>
+      )}
       {isAuthenticated ? (
         <>
           <ChakraLink as={Link} to="/dashboard">
@@ -95,7 +97,12 @@ const Header = ({ isAuthenticated, user, onLogout }: HeaderProps) => {
     >
       <Container maxW="container.xl" h="100%">
         <Flex justify="space-between" align="center" h="100%">
-          <ChakraLink as={Link} to="/" fontSize="xl" fontWeight="bold">
+          <ChakraLink
+            as={Link}
+            to={isAuthenticated ? "/dashboard" : "/"}
+            fontSize="xl"
+            fontWeight="bold"
+          >
             Notype.ai
           </ChakraLink>
 
@@ -149,9 +156,21 @@ const Header = ({ isAuthenticated, user, onLogout }: HeaderProps) => {
               <DrawerCloseButton />
               <DrawerBody>
                 <VStack spacing={4} align="stretch" mt={8}>
+                  <Button
+                    leftIcon={colorMode === "dark" ? <SunIcon /> : <MoonIcon />}
+                    onClick={toggleColorMode}
+                    variant="outline"
+                    colorScheme="purple"
+                    size="lg"
+                    mb={4}
+                  >
+                    {colorMode === "dark"
+                      ? "Switch to Light Mode"
+                      : "Switch to Dark Mode"}
+                  </Button>
                   <MenuItems />
                   {isAuthenticated && user && (
-                    <VStack align="stretch" spacing={2}>
+                    <VStack align="stretch" spacing={4} mt={4}>
                       <Flex
                         as={Button}
                         variant="ghost"
@@ -171,17 +190,10 @@ const Header = ({ isAuthenticated, user, onLogout }: HeaderProps) => {
                         <Text>{displayName}</Text>
                       </Flex>
                       <Button
-                        leftIcon={
-                          colorMode === "dark" ? <SunIcon /> : <MoonIcon />
-                        }
-                        onClick={toggleColorMode}
-                        variant="ghost"
-                        justifyContent="flex-start"
-                      >
-                        {colorMode === "dark" ? "Light Mode" : "Dark Mode"}
-                      </Button>
-                      <Button
-                        onClick={onLogout}
+                        onClick={() => {
+                          onClose();
+                          onLogout();
+                        }}
                         colorScheme="red"
                         variant="outline"
                       >

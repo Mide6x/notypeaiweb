@@ -1,42 +1,13 @@
-import {
-  createContext,
-  useState,
-  useEffect,
-  ReactNode,
-  useCallback,
-  useContext,
-} from "react";
+import { useState, useEffect, ReactNode, useCallback } from "react";
 import axios, { AxiosError } from "axios";
+import { User } from "./types";
+import { AuthContext } from "./context";
 
-interface User {
-  id: string;
-  name: string;
-  email: string;
-  picture: string;
+interface AuthProviderProps {
+  children: ReactNode;
 }
 
-interface AuthContextType {
-  user: User | null;
-  isAuthenticated: boolean;
-  isLoading: boolean;
-  updateUser: (user: User) => void;
-  login: (email: string, password: string) => Promise<void>;
-  register: (email: string, password: string, name: string) => Promise<void>;
-  logout: () => Promise<void>;
-}
-
-// Export the context
-export const AuthContext = createContext<AuthContextType>({
-  user: null,
-  isAuthenticated: false,
-  isLoading: true,
-  updateUser: () => {},
-  login: async () => {},
-  register: async () => {},
-  logout: async () => {},
-});
-
-export const AuthProvider = ({ children }: { children: ReactNode }) => {
+export const AuthProvider = ({ children }: AuthProviderProps) => {
   const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const apiUrl = import.meta.env.VITE_API_URL;
@@ -98,13 +69,4 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
-};
-
-// Export the hook directly from AuthContext
-export const useAuth = () => {
-  const context = useContext(AuthContext);
-  if (!context) {
-    throw new Error("useAuth must be used within an AuthProvider");
-  }
-  return context;
 };
