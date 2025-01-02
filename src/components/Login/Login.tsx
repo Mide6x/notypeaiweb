@@ -71,21 +71,21 @@ const Login = () => {
         );
       } else {
         // Register logic
-        console.log("Sending registration request with:", {
-          email,
-          password,
-          name,
-        });
-        const response = await axios.post(
+        await axios.post(
           `${apiUrl}/auth/register`,
           { email, password, name },
           { withCredentials: true }
         );
-        console.log("Registration response:", response.data);
       }
+
+      // Navigate first, then reload
       navigate("/dashboard");
+      // Add a small delay before reload to ensure navigation completes
+      setTimeout(() => {
+        window.location.reload();
+      }, 50);
     } catch (error) {
-      console.error("Registration error:", error);
+      console.error("Authentication error:", error);
       const axiosError = error as AxiosError<ErrorResponse>;
       toast({
         title: "Error",
