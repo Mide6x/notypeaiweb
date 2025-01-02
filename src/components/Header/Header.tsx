@@ -128,14 +128,29 @@ const Header = ({ isAuthenticated, user, onLogout }: HeaderProps) => {
               <DrawerBody>
                 <VStack spacing={4} align="stretch" mt={8}>
                   <MenuItems />
-                  {isAuthenticated && (
-                    <Button
-                      onClick={onLogout}
-                      colorScheme="red"
-                      variant="outline"
-                    >
-                      Logout
-                    </Button>
+                  {/* Add color mode toggle button */}
+                  <Button
+                    leftIcon={colorMode === "dark" ? <SunIcon /> : <MoonIcon />}
+                    onClick={toggleColorMode}
+                    variant="ghost"
+                    justifyContent="flex-start"
+                  >
+                    {colorMode === "dark" ? "Light Mode" : "Dark Mode"}
+                  </Button>
+                  {isAuthenticated && user && (
+                    <VStack align="stretch" spacing={2}>
+                      <Flex align="center" gap={2}>
+                        <Avatar size="sm" src={user.picture} name={user.name} />
+                        <Box>{user.name}</Box>
+                      </Flex>
+                      <Button
+                        onClick={onLogout}
+                        colorScheme="red"
+                        variant="outline"
+                      >
+                        Logout
+                      </Button>
+                    </VStack>
                   )}
                 </VStack>
               </DrawerBody>

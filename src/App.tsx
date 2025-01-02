@@ -7,6 +7,7 @@ import LoginPage from "./components/pages/LoginPage";
 import PrivacyPolicy from "./components/pages/PrivacyPolicy";
 import TermsOfService from "./components/pages/TermsOfService";
 import DashboardPage from "./components/pages/DashboardPage";
+import NotFound from "./components/pages/NotFound";
 import ProtectedRoute from "./components/Auth/ProtectedRoute";
 
 function App() {
@@ -27,6 +28,7 @@ function App() {
                 </ProtectedRoute>
               }
             />
+            <Route path="*" element={<NotFound />} />
           </Routes>
         </MainLayout>
       </Router>
