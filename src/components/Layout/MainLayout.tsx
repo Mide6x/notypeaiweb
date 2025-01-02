@@ -7,6 +7,7 @@ import { useState, useEffect } from "react";
 
 interface User {
   name: string;
+  email: string;
   picture: string;
 }
 
