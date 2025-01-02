@@ -19,15 +19,22 @@ import {
   MenuList,
   MenuItem,
   Avatar,
+  Text,
 } from "@chakra-ui/react";
-import { HamburgerIcon, MoonIcon, SunIcon } from "@chakra-ui/icons";
-import { Link } from "react-router-dom";
+import {
+  HamburgerIcon,
+  MoonIcon,
+  SunIcon,
+  ChevronDownIcon,
+} from "@chakra-ui/icons";
+import { Link, useNavigate } from "react-router-dom";
 import { FaChrome } from "react-icons/fa";
 
 interface HeaderProps {
   isAuthenticated?: boolean;
   user?: {
     name: string;
+    email: string;
     picture: string;
   };
   onLogout: () => void;
@@ -36,6 +43,9 @@ interface HeaderProps {
 const Header = ({ isAuthenticated, user, onLogout }: HeaderProps) => {
   const { colorMode, toggleColorMode } = useColorMode();
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const navigate = useNavigate();
+
+  const displayName = user?.name || user?.email?.split("@")[0] || "User";
 
   const MenuItems = () => (
     <>
@@ -100,10 +110,22 @@ const Header = ({ isAuthenticated, user, onLogout }: HeaderProps) => {
             />
             {isAuthenticated && user && (
               <Menu>
-                <MenuButton>
-                  <Avatar size="sm" src={user.picture} name={user.name} />
+                <MenuButton
+                  as={Button}
+                  variant="ghost"
+                  rightIcon={<ChevronDownIcon />}
+                  display="flex"
+                  alignItems="center"
+                >
+                  <HStack spacing={2}>
+                    <Avatar size="sm" src={user.picture} name={displayName} />
+                    <Text>{displayName}</Text>
+                  </HStack>
                 </MenuButton>
                 <MenuList>
+                  <MenuItem onClick={() => navigate("/account-settings")}>
+                    Account Settings
+                  </MenuItem>
                   <MenuItem onClick={toggleColorMode}>
                     {colorMode === "dark" ? "Light Mode" : "Dark Mode"}
                   </MenuItem>
@@ -128,21 +150,36 @@ const Header = ({ isAuthenticated, user, onLogout }: HeaderProps) => {
               <DrawerBody>
                 <VStack spacing={4} align="stretch" mt={8}>
                   <MenuItems />
-                  {/* Add color mode toggle button */}
-                  <Button
-                    leftIcon={colorMode === "dark" ? <SunIcon /> : <MoonIcon />}
-                    onClick={toggleColorMode}
-                    variant="ghost"
-                    justifyContent="flex-start"
-                  >
-                    {colorMode === "dark" ? "Light Mode" : "Dark Mode"}
-                  </Button>
                   {isAuthenticated && user && (
                     <VStack align="stretch" spacing={2}>
-                      <Flex align="center" gap={2}>
-                        <Avatar size="sm" src={user.picture} name={user.name} />
-                        <Box>{user.name}</Box>
+                      <Flex
+                        as={Button}
+                        variant="ghost"
+                        onClick={() => {
+                          onClose();
+                          navigate("/account-settings");
+                        }}
+                        justify="flex-start"
+                        align="center"
+                        gap={2}
+                      >
+                        <Avatar
+                          size="sm"
+                          src={user.picture}
+                          name={displayName}
+                        />
+                        <Text>{displayName}</Text>
                       </Flex>
+                      <Button
+                        leftIcon={
+                          colorMode === "dark" ? <SunIcon /> : <MoonIcon />
+                        }
+                        onClick={toggleColorMode}
+                        variant="ghost"
+                        justifyContent="flex-start"
+                      >
+                        {colorMode === "dark" ? "Light Mode" : "Dark Mode"}
+                      </Button>
                       <Button
                         onClick={onLogout}
                         colorScheme="red"

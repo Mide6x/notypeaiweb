@@ -9,29 +9,41 @@ import TermsOfService from "./components/pages/TermsOfService";
 import DashboardPage from "./components/pages/DashboardPage";
 import NotFound from "./components/pages/NotFound";
 import ProtectedRoute from "./components/Auth/ProtectedRoute";
+import AccountSettings from "./components/pages/AccountSettings";
+import { AuthProvider } from "./components/Auth/AuthContext";
 
 function App() {
   return (
     <ChakraProvider theme={theme}>
-      <Router>
-        <MainLayout>
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/login" element={<LoginPage />} />
-            <Route path="/privacy" element={<PrivacyPolicy />} />
-            <Route path="/terms" element={<TermsOfService />} />
-            <Route
-              path="/dashboard/*"
-              element={
-                <ProtectedRoute>
-                  <DashboardPage />
-                </ProtectedRoute>
-              }
-            />
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-        </MainLayout>
-      </Router>
+      <AuthProvider>
+        <Router>
+          <MainLayout>
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/login" element={<LoginPage />} />
+              <Route path="/privacy" element={<PrivacyPolicy />} />
+              <Route path="/terms" element={<TermsOfService />} />
+              <Route
+                path="/dashboard/*"
+                element={
+                  <ProtectedRoute>
+                    <DashboardPage />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/account-settings"
+                element={
+                  <ProtectedRoute>
+                    <AccountSettings />
+                  </ProtectedRoute>
+                }
+              />
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </MainLayout>
+        </Router>
+      </AuthProvider>
     </ChakraProvider>
   );
 }
