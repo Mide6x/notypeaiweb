@@ -9,10 +9,14 @@ import {
   Text,
   useToast,
   Divider,
-  useColorMode,
 } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
+
+interface ErrorResponse {
+  message: string;
+  errors?: Array<{ msg: string }>;
+}
 
 const Login = () => {
   const [isLogin, setIsLogin] = useState(true);
@@ -80,11 +84,12 @@ const Login = () => {
         console.log("Registration response:", response.data);
       }
       navigate("/dashboard");
-    } catch (error: any) {
-      console.error("Registration error:", error.response?.data);
+    } catch (error) {
+      console.error("Registration error:", error);
+      const axiosError = error as AxiosError<ErrorResponse>;
       toast({
         title: "Error",
-        description: error.response?.data?.message || "An error occurred",
+        description: axiosError.response?.data?.message || "An error occurred",
         status: "error",
         duration: 3000,
         isClosable: true,
