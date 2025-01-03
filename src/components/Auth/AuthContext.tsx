@@ -3,6 +3,11 @@ import axios, { AxiosError } from "axios";
 import { User } from "./types";
 import { AuthContext } from "./context";
 
+// Configure axios defaults
+axios.defaults.withCredentials = true;
+axios.defaults.headers.common["Accept"] = "application/json";
+axios.defaults.headers.common["Content-Type"] = "application/json";
+
 interface AuthProviderProps {
   children: ReactNode;
 }
@@ -16,6 +21,10 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     try {
       const response = await axios.get(`${apiUrl}/auth/user`, {
         withCredentials: true,
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
       });
       setUser(response.data);
     } catch (err: unknown) {
@@ -39,7 +48,13 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     const response = await axios.post(
       `${apiUrl}/auth/login`,
       { email, password },
-      { withCredentials: true }
+      {
+        withCredentials: true,
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+      }
     );
     setUser(response.data.user);
   };
@@ -48,13 +63,29 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     const response = await axios.post(
       `${apiUrl}/auth/register`,
       { email, password, name },
-      { withCredentials: true }
+      {
+        withCredentials: true,
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+      }
     );
     setUser(response.data.user);
   };
 
   const logout = async () => {
-    await axios.post(`${apiUrl}/auth/logout`, {}, { withCredentials: true });
+    await axios.post(
+      `${apiUrl}/auth/logout`,
+      {},
+      {
+        withCredentials: true,
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+      }
+    );
     setUser(null);
   };
 
