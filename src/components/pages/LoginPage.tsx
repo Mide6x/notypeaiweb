@@ -1,14 +1,7 @@
-import Login from "../Login";
-import { Box, Container } from "@chakra-ui/react";
+import Login from "../Auth/Login";
 
 const LoginPage = () => {
-  return (
-    <Box py={{ base: 10, md: 20 }}>
-      <Container maxW="container.sm">
-        <Login />
-      </Container>
-    </Box>
-  );
+  return <Login />;
 };
 
 export default LoginPage;

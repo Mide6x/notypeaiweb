@@ -39,46 +39,109 @@ function App() {
       <AuthProvider>
         <ThemeInitializer />
         <Router>
-          <MainLayout>
-            <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/blog" element={<BlogPage />} />
-              <Route
-                path="/blog/future-of-voice-to-text"
-                element={<BlogPost1 />}
-              />
-              <Route
-                path="/blog/maximizing-productivity"
-                element={<BlogPost2 />}
-              />
-              <Route
-                path="/blog/voice-recognition-languages"
-                element={<BlogPost3 />}
-              />
-              <Route path="/pricing" element={<PricingPage />} />
-              <Route path="/faq" element={<FAQPage />} />
-              <Route path="/login" element={<LoginPage />} />
-              <Route path="/privacy" element={<PrivacyPolicy />} />
-              <Route path="/terms" element={<TermsOfService />} />
-              <Route
-                path="/dashboard/*"
-                element={
+          <Routes>
+            <Route path="/login" element={<LoginPage />} />
+            <Route
+              path="/"
+              element={
+                <MainLayout>
+                  <Home />
+                </MainLayout>
+              }
+            />
+            <Route
+              path="/blog"
+              element={
+                <MainLayout>
+                  <BlogPage />
+                </MainLayout>
+              }
+            />
+            <Route
+              path="/blog/future-of-voice-to-text"
+              element={
+                <MainLayout>
+                  <BlogPost1 />
+                </MainLayout>
+              }
+            />
+            <Route
+              path="/blog/maximizing-productivity"
+              element={
+                <MainLayout>
+                  <BlogPost2 />
+                </MainLayout>
+              }
+            />
+            <Route
+              path="/blog/voice-recognition-languages"
+              element={
+                <MainLayout>
+                  <BlogPost3 />
+                </MainLayout>
+              }
+            />
+            <Route
+              path="/pricing"
+              element={
+                <MainLayout>
+                  <PricingPage />
+                </MainLayout>
+              }
+            />
+            <Route
+              path="/faq"
+              element={
+                <MainLayout>
+                  <FAQPage />
+                </MainLayout>
+              }
+            />
+            <Route
+              path="/privacy"
+              element={
+                <MainLayout>
+                  <PrivacyPolicy />
+                </MainLayout>
+              }
+            />
+            <Route
+              path="/terms"
+              element={
+                <MainLayout>
+                  <TermsOfService />
+                </MainLayout>
+              }
+            />
+            <Route
+              path="/dashboard/*"
+              element={
+                <MainLayout>
                   <ProtectedRoute>
                     <DashboardPage />
                   </ProtectedRoute>
-                }
-              />
-              <Route
-                path="/account-settings"
-                element={
+                </MainLayout>
+              }
+            />
+            <Route
+              path="/account-settings"
+              element={
+                <MainLayout>
                   <ProtectedRoute>
                     <AccountSettings />
                   </ProtectedRoute>
-                }
-              />
-              <Route path="*" element={<NotFound />} />
-            </Routes>
-          </MainLayout>
+                </MainLayout>
+              }
+            />
+            <Route
+              path="*"
+              element={
+                <MainLayout>
+                  <NotFound />
+                </MainLayout>
+              }
+            />
+          </Routes>
         </Router>
       </AuthProvider>
     </ChakraProvider>
