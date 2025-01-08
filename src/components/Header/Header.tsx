@@ -20,6 +20,7 @@ import {
   MenuItem,
   Avatar,
   Text,
+  Image,
 } from "@chakra-ui/react";
 import {
   HamburgerIcon,
@@ -28,7 +29,7 @@ import {
   ChevronDownIcon,
 } from "@chakra-ui/icons";
 import { Link, useNavigate } from "react-router-dom";
-import { FaChrome } from "react-icons/fa";
+import logo from "../../assets/Group 14.png";
 
 interface HeaderProps {
   isAuthenticated?: boolean;
@@ -49,37 +50,15 @@ const Header = ({ isAuthenticated, user, onLogout }: HeaderProps) => {
 
   const MenuItems = () => (
     <>
-      {!isAuthenticated && (
-        <ChakraLink as={Link} to="/">
-          Home
-        </ChakraLink>
-      )}
-      {isAuthenticated ? (
-        <>
-          <ChakraLink as={Link} to="/dashboard">
-            Dashboard
-          </ChakraLink>
-          <Button
-            as="a"
-            href="https://chromewebstore.google.com/detail/notypeai/jddchfnkcmclhijghgplffidgkcjkedd"
-            target="_blank"
-            leftIcon={<FaChrome />}
-            colorScheme="purple"
-            size="sm"
-          >
-            Add to Chrome
-          </Button>
-        </>
-      ) : (
-        <>
-          <ChakraLink as={Link} to="/pricing">
-            Pricing
-          </ChakraLink>
-          <Button as={Link} to="/login" colorScheme="purple" size="sm">
-            Login
-          </Button>
-        </>
-      )}
+      <ChakraLink as={Link} to="/blog">
+        Blog
+      </ChakraLink>
+      <ChakraLink as={Link} to="/pricing">
+        Pricing
+      </ChakraLink>
+      <ChakraLink as={Link} to="/faq">
+        FAQs
+      </ChakraLink>
     </>
   );
 
@@ -97,25 +76,38 @@ const Header = ({ isAuthenticated, user, onLogout }: HeaderProps) => {
     >
       <Container maxW="container.xl" h="100%">
         <Flex justify="space-between" align="center" h="100%">
+          {/* Logo on the far left */}
           <ChakraLink
             as={Link}
             to={isAuthenticated ? "/dashboard" : "/"}
-            fontSize="xl"
-            fontWeight="bold"
+            display="flex"
+            alignItems="center"
           >
-            Notype.ai
+            <Image src={logo} alt="Notype.ai" h="32px" />
+            <Text fontSize="xl" fontWeight="bold" colorScheme="purple.500">
+              Notype.ai
+            </Text>
           </ChakraLink>
 
-          {/* Desktop Navigation */}
-          <HStack spacing={8} display={{ base: "none", md: "flex" }}>
+          {/* Centered Navigation */}
+          <HStack
+            spacing={8}
+            display={{ base: "none", md: "flex" }}
+            flex="1"
+            justify="center"
+          >
             <MenuItems />
+          </HStack>
+
+          {/* Right Side Items */}
+          <HStack spacing={4} display={{ base: "none", md: "flex" }}>
             <IconButton
               aria-label="Toggle color mode"
               icon={colorMode === "dark" ? <SunIcon /> : <MoonIcon />}
               onClick={toggleColorMode}
               variant="ghost"
             />
-            {isAuthenticated && user && (
+            {isAuthenticated && user ? (
               <Menu>
                 <MenuButton
                   as={Button}
@@ -139,10 +131,24 @@ const Header = ({ isAuthenticated, user, onLogout }: HeaderProps) => {
                   <MenuItem onClick={onLogout}>Logout</MenuItem>
                 </MenuList>
               </Menu>
+            ) : (
+              <HStack spacing={4}>
+                <Button
+                  as={Link}
+                  to="/login"
+                  variant="ghost"
+                  colorScheme="purple"
+                >
+                  Login
+                </Button>
+                <Button as={Link} to="/login" colorScheme="purple">
+                  Create Account
+                </Button>
+              </HStack>
             )}
           </HStack>
 
-          {/* Mobile Navigation */}
+          {/* Mobile Menu Button */}
           <IconButton
             aria-label="Open menu"
             icon={<HamburgerIcon />}
@@ -150,6 +156,7 @@ const Header = ({ isAuthenticated, user, onLogout }: HeaderProps) => {
             display={{ base: "flex", md: "none" }}
           />
 
+          {/* Mobile Drawer */}
           <Drawer isOpen={isOpen} onClose={onClose} placement="right">
             <DrawerOverlay />
             <DrawerContent>
@@ -169,7 +176,7 @@ const Header = ({ isAuthenticated, user, onLogout }: HeaderProps) => {
                       : "Switch to Dark Mode"}
                   </Button>
                   <MenuItems />
-                  {isAuthenticated && user && (
+                  {isAuthenticated && user ? (
                     <VStack align="stretch" spacing={4} mt={4}>
                       <Flex
                         as={Button}
@@ -198,6 +205,27 @@ const Header = ({ isAuthenticated, user, onLogout }: HeaderProps) => {
                         variant="outline"
                       >
                         Logout
+                      </Button>
+                    </VStack>
+                  ) : (
+                    <VStack spacing={4}>
+                      <Button
+                        as={Link}
+                        to="/login"
+                        colorScheme="purple"
+                        variant="outline"
+                        w="full"
+                      >
+                        Login
+                      </Button>
+                      <Button
+                        as={Link}
+                        to="/login"
+                        colorScheme="purple"
+                        variant="outline"
+                        w="full"
+                      >
+                        Create Account
                       </Button>
                     </VStack>
                   )}
