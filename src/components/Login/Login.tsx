@@ -11,7 +11,7 @@ import {
   Divider,
 } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
-import axios, { AxiosError } from "axios";
+import { useAuth } from "../Auth/useAuth";
 
 interface ErrorResponse {
   message: string;
@@ -23,77 +23,43 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
   const toast = useToast();
-  const apiUrl = import.meta.env.VITE_API_URL;
+  const { login, register } = useAuth();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
-    // Validate inputs
-    if (!isLogin && !name.trim()) {
-      toast({
-        title: "Error",
-        description: "Name is required",
-        status: "error",
-        duration: 3000,
-      });
-      return;
-    }
-
-    if (!email.trim() || !password.trim()) {
-      toast({
-        title: "Error",
-        description: "Email and password are required",
-        status: "error",
-        duration: 3000,
-      });
-      return;
-    }
-
-    if (password.length < 6) {
-      toast({
-        title: "Error",
-        description: "Password must be at least 6 characters long",
-        status: "error",
-        duration: 3000,
-      });
-      return;
-    }
+    setIsLoading(true);
 
     try {
       if (isLogin) {
-        // Login logic
-        await axios.post(
-          `${apiUrl}/auth/login`,
-          { email, password },
-          { withCredentials: true }
-        );
+        await login(email, password);
       } else {
-        // Register logic
-        await axios.post(
-          `${apiUrl}/auth/register`,
-          { email, password, name },
-          { withCredentials: true }
-        );
+        await register(email, password, name);
       }
-
-      // Navigate first, then reload
       navigate("/dashboard");
-      // Add a small delay before reload to ensure navigation completes
-      setTimeout(() => {
-        window.location.reload();
-      }, 50);
-    } catch (error) {
-      console.error("Authentication error:", error);
-      const axiosError = error as AxiosError<ErrorResponse>;
-      toast({
-        title: "Error",
-        description: axiosError.response?.data?.message || "An error occurred",
-        status: "error",
-        duration: 3000,
-        isClosable: true,
-      });
+    } catch (err: unknown) {
+      const error = err as { response?: { data: ErrorResponse } };
+      if (error.response?.data.errors) {
+        error.response.data.errors.forEach((err) => {
+          toast({
+            title: "Error",
+            description: err.msg,
+            status: "error",
+            duration: 3000,
+          });
+        });
+      } else {
+        toast({
+          title: "Error",
+          description: error.response?.data.message || "Authentication failed",
+          status: "error",
+          duration: 3000,
+        });
+      }
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -130,7 +96,12 @@ const Login = () => {
               placeholder="Enter your password"
             />
           </FormControl>
-          <Button type="submit" colorScheme="purple" width="100%">
+          <Button
+            type="submit"
+            colorScheme="purple"
+            width="100%"
+            isLoading={isLoading}
+          >
             {isLogin ? "Login" : "Register"}
           </Button>
         </VStack>

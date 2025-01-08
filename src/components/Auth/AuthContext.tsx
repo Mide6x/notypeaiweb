@@ -57,10 +57,15 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       password,
     });
     if (response.data && response.data.user) {
+      // Set user immediately for instant UI update
       setUser(response.data.user);
-      // Force a page reload after successful login
-      window.location.reload();
+      // Use requestAnimationFrame to schedule the refresh for the next frame
+      // This ensures the UI updates are painted before the refresh
+      requestAnimationFrame(() => {
+        window.location.reload();
+      });
     }
+    return response.data.user;
   };
 
   const register = async (email: string, password: string, name: string) => {
@@ -70,17 +75,23 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       name,
     });
     if (response.data && response.data.user) {
+      // Set user immediately for instant UI update
       setUser(response.data.user);
-      // Force a page reload after successful registration
-      window.location.reload();
+      // Use requestAnimationFrame to schedule the refresh for the next frame
+      requestAnimationFrame(() => {
+        window.location.reload();
+      });
     }
+    return response.data.user;
   };
 
   const logout = async () => {
     await authAxios.post(`${apiUrl}/auth/logout`);
     setUser(null);
-    // Force a page reload after logout
-    window.location.reload();
+    // Use requestAnimationFrame for logout as well
+    requestAnimationFrame(() => {
+      window.location.reload();
+    });
   };
 
   const value = {
