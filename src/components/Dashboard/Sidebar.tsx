@@ -1,26 +1,28 @@
 import { VStack, Box, Button, useColorMode } from "@chakra-ui/react";
 import { FaFileAlt, FaLanguage, FaSpellCheck } from "react-icons/fa";
 import { Link, useLocation } from "react-router-dom";
+import { useTranslation } from "../../i18n";
 
 const Sidebar = () => {
   const { colorMode } = useColorMode();
   const location = useLocation();
+  const { getText } = useTranslation();
 
   const isActive = (path: string) => location.pathname === path;
 
   const menuItems = [
     {
-      name: "AI Summarizer",
+      name: getText("aiSummarizer"),
       icon: <FaFileAlt />,
       path: "/dashboard/summarizer",
     },
     {
-      name: "Grammar Editor",
+      name: getText("grammarEditor"),
       icon: <FaSpellCheck />,
       path: "/dashboard/grammar",
     },
     {
-      name: "Local Translator",
+      name: getText("localTranslator"),
       icon: <FaLanguage />,
       path: "/dashboard/translator",
     },
@@ -50,7 +52,7 @@ const Sidebar = () => {
             variant={isActive(item.path) ? "solid" : "ghost"}
             colorScheme={isActive(item.path) ? "purple" : undefined}
             size="md"
-            w="100%"
+            w="auto"
           >
             {item.name}
           </Button>

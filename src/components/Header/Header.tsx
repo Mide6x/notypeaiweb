@@ -50,15 +50,19 @@ const Header = ({ isAuthenticated, user, onLogout }: HeaderProps) => {
 
   const MenuItems = () => (
     <>
-      <ChakraLink as={Link} to="/blog">
-        Blog
-      </ChakraLink>
-      <ChakraLink as={Link} to="/pricing">
-        Pricing
-      </ChakraLink>
-      <ChakraLink as={Link} to="/faq">
-        FAQs
-      </ChakraLink>
+      {!isAuthenticated && (
+        <>
+          <ChakraLink as={Link} to="/blog">
+            Blog
+          </ChakraLink>
+          <ChakraLink as={Link} to="/pricing">
+            Pricing
+          </ChakraLink>
+          <ChakraLink as={Link} to="/faq">
+            FAQs
+          </ChakraLink>
+        </>
+      )}
     </>
   );
 

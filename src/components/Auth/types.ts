@@ -1,8 +1,15 @@
+export interface UserPreferences {
+  language: string;
+  theme: 'light' | 'dark';
+}
+
 export interface User {
-  id: string;
-  name: string;
+  _id: string;
   email: string;
+  name: string;
   picture: string;
+  preferences: UserPreferences;
+  createdAt: string;
 }
 
 export interface AuthContextType {
@@ -10,8 +17,8 @@ export interface AuthContextType {
   isAuthenticated: boolean;
   isLoading: boolean;
   updateUser: (user: User) => void;
-  login: (email: string, password: string) => Promise<void>;
-  register: (email: string, password: string, name: string) => Promise<void>;
+  login: (email: string, password: string) => Promise<User>;
+  register: (email: string, password: string, name: string) => Promise<User>;
   logout: () => Promise<void>;
 }
 
@@ -20,7 +27,13 @@ export const defaultAuthContext: AuthContextType = {
   isAuthenticated: false,
   isLoading: true,
   updateUser: () => {},
-  login: async () => {},
-  register: async () => {},
-  logout: async () => {},
+  login: async () => {
+    throw new Error('Not implemented');
+  },
+  register: async () => {
+    throw new Error('Not implemented');
+  },
+  logout: async () => {
+    throw new Error('Not implemented');
+  },
 }; 

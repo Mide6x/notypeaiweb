@@ -1,5 +1,6 @@
-import { ChakraProvider } from "@chakra-ui/react";
+import { ChakraProvider, useColorMode } from "@chakra-ui/react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { useEffect } from "react";
 import theme from "./theme";
 import MainLayout from "./components/Layout/MainLayout";
 import Home from "./components/pages/Home";
@@ -11,6 +12,7 @@ import NotFound from "./components/pages/NotFound";
 import ProtectedRoute from "./components/Auth/ProtectedRoute";
 import AccountSettings from "./components/pages/AccountSettings";
 import { AuthProvider } from "./components/Auth/AuthContext";
+import { useAuth } from "./components/Auth/useAuth";
 import BlogPage from "./components/pages/BlogPage";
 import BlogPost1 from "./components/pages/blog/BlogPost1";
 import BlogPost2 from "./components/pages/blog/BlogPost2";
@@ -18,10 +20,24 @@ import BlogPost3 from "./components/pages/blog/BlogPost3";
 import PricingPage from "./components/pages/PricingPage";
 import FAQPage from "./components/pages/FAQPage";
 
+const ThemeInitializer = () => {
+  const { user } = useAuth();
+  const { setColorMode } = useColorMode();
+
+  useEffect(() => {
+    if (user?.preferences?.theme) {
+      setColorMode(user.preferences.theme);
+    }
+  }, [user?.preferences?.theme, setColorMode]);
+
+  return null;
+};
+
 function App() {
   return (
     <ChakraProvider theme={theme}>
       <AuthProvider>
+        <ThemeInitializer />
         <Router>
           <MainLayout>
             <Routes>

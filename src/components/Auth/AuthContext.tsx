@@ -57,10 +57,8 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       password,
     });
     if (response.data && response.data.user) {
-      // Set user immediately for instant UI update
       setUser(response.data.user);
       // Use requestAnimationFrame to schedule the refresh for the next frame
-      // This ensures the UI updates are painted before the refresh
       requestAnimationFrame(() => {
         window.location.reload();
       });
@@ -75,7 +73,6 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       name,
     });
     if (response.data && response.data.user) {
-      // Set user immediately for instant UI update
       setUser(response.data.user);
       // Use requestAnimationFrame to schedule the refresh for the next frame
       requestAnimationFrame(() => {

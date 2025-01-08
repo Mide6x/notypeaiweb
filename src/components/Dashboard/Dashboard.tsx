@@ -16,6 +16,7 @@ import GrammarEditor from "./Tools/GrammarEditor";
 import Translator from "./Tools/Translator";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { useTranslation } from "../../i18n";
 
 interface User {
   name: string;
@@ -27,25 +28,26 @@ const Dashboard = () => {
   const { colorMode } = useColorMode();
   const [user, setUser] = useState<User | null>(null);
   const [selectedTool, setSelectedTool] = useState<string | null>(null);
+  const { getText } = useTranslation();
   const navigate = useNavigate();
 
   const tools = [
     {
-      name: "AI Summarizer",
+      name: getText("aiSummarizer"),
       icon: FaFileAlt,
-      description: "Summarize long texts quickly",
+      description: getText("aiSummarizerDesc"),
       path: "/dashboard/summarizer",
     },
     {
-      name: "Grammar Editor",
+      name: getText("grammarEditor"),
       icon: FaSpellCheck,
-      description: "Fix grammar and spelling mistakes",
+      description: getText("grammarEditorDesc"),
       path: "/dashboard/grammar",
     },
     {
-      name: "Local Translator",
+      name: getText("localTranslator"),
       icon: FaLanguage,
-      description: "Translate text to multiple languages",
+      description: getText("localTranslatorDesc"),
       path: "/dashboard/translator",
     },
   ];
@@ -80,7 +82,7 @@ const Dashboard = () => {
         <Container maxW="container.xl">
           <VStack spacing={8} align="stretch">
             <Heading size="lg" textAlign="center">
-              Hi {user?.name}! What would you like to do today?
+              {getText("welcomeMessage").replace("Mide", user?.name || "User")}
             </Heading>
             <SimpleGrid columns={{ base: 1, md: 3 }} spacing={8} pt={8}>
               {tools.map((tool) => (
