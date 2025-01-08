@@ -1,16 +1,20 @@
-import { VStack, Box, Button, useColorMode } from "@chakra-ui/react";
+import { HStack, Box, Button, useColorMode, Flex } from "@chakra-ui/react";
 import { FaFileAlt, FaLanguage, FaSpellCheck } from "react-icons/fa";
 import { Link, useLocation } from "react-router-dom";
 import { useTranslation } from "../../i18n";
 
-const Sidebar = () => {
+interface SidebarProps {
+  onSelect?: (path: string) => void;
+}
+
+const Sidebar = ({ onSelect }: SidebarProps) => {
   const { colorMode } = useColorMode();
   const location = useLocation();
   const { getText } = useTranslation();
 
   const isActive = (path: string) => location.pathname === path;
 
-  const menuItems = [
+  const tools = [
     {
       name: getText("aiSummarizer"),
       icon: <FaFileAlt />,
@@ -28,7 +32,49 @@ const Sidebar = () => {
     },
   ];
 
-  return (
+  const handleClick = (path: string) => {
+    if (onSelect) {
+      onSelect(path);
+    }
+  };
+
+  // Mobile view
+  const mobileView = (
+    <Flex
+      w="100%"
+      bg={colorMode === "dark" ? "gray.800" : "white"}
+      borderBottom="1px"
+      borderColor={colorMode === "dark" ? "gray.700" : "gray.200"}
+      py={2}
+      px={4}
+      overflowX="auto"
+      position="fixed"
+      top="64px"
+      left={0}
+      zIndex={10}
+    >
+      <HStack spacing={2} w="100%" justify="space-around">
+        {tools.map((tool) => (
+          <Button
+            key={tool.path}
+            as={Link}
+            to={tool.path}
+            leftIcon={tool.icon}
+            variant={isActive(tool.path) ? "solid" : "ghost"}
+            colorScheme={isActive(tool.path) ? "purple" : undefined}
+            size="sm"
+            flexShrink={0}
+            onClick={() => handleClick(tool.path)}
+          >
+            {tool.name}
+          </Button>
+        ))}
+      </HStack>
+    </Flex>
+  );
+
+  // Desktop view
+  const desktopView = (
     <Box
       w="220px"
       h="calc(100vh - 64px)"
@@ -41,24 +87,32 @@ const Sidebar = () => {
       py={4}
       overflowY="auto"
     >
-      <VStack spacing={2} align="stretch" px={3}>
-        {menuItems.map((item) => (
+      <Flex direction="column" px={3} gap={2}>
+        {tools.map((tool) => (
           <Button
-            key={item.path}
+            key={tool.path}
             as={Link}
-            to={item.path}
-            leftIcon={item.icon}
+            to={tool.path}
+            leftIcon={tool.icon}
             justifyContent="flex-start"
-            variant={isActive(item.path) ? "solid" : "ghost"}
-            colorScheme={isActive(item.path) ? "purple" : undefined}
+            variant={isActive(tool.path) ? "solid" : "ghost"}
+            colorScheme={isActive(tool.path) ? "purple" : undefined}
             size="md"
-            w="auto"
+            w="100%"
+            onClick={() => handleClick(tool.path)}
           >
-            {item.name}
+            {tool.name}
           </Button>
         ))}
-      </VStack>
+      </Flex>
     </Box>
+  );
+
+  return (
+    <>
+      <Box display={{ base: "block", md: "none" }}>{mobileView}</Box>
+      <Box display={{ base: "none", md: "block" }}>{desktopView}</Box>
+    </>
   );
 };
 

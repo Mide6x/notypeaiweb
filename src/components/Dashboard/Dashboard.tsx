@@ -27,7 +27,7 @@ interface User {
 const Dashboard = () => {
   const { colorMode } = useColorMode();
   const [user, setUser] = useState<User | null>(null);
-  const [selectedTool, setSelectedTool] = useState<string | null>(null);
+  const [showWelcome, setShowWelcome] = useState(true);
   const { getText } = useTranslation();
   const navigate = useNavigate();
 
@@ -60,6 +60,15 @@ const Dashboard = () => {
           { withCredentials: true }
         );
         setUser(response.data);
+        const hasVisited = sessionStorage.getItem("hasVisitedDashboard");
+        if (hasVisited) {
+          setShowWelcome(false);
+          if (window.location.pathname === "/dashboard") {
+            navigate("/dashboard/summarizer");
+          }
+        } else {
+          sessionStorage.setItem("hasVisitedDashboard", "true");
+        }
       } catch {
         navigate("/login");
       }
@@ -68,11 +77,11 @@ const Dashboard = () => {
   }, [navigate]);
 
   const handleToolSelect = (path: string) => {
-    setSelectedTool(path);
+    setShowWelcome(false);
     navigate(path);
   };
 
-  if (!selectedTool) {
+  if (showWelcome) {
     return (
       <Box
         minH="100vh"
@@ -118,11 +127,13 @@ const Dashboard = () => {
   }
 
   return (
-    <Box display="flex">
-      <Sidebar />
+    <Box display="flex" flexDirection="column">
+      <Sidebar onSelect={handleToolSelect} />
+
       <Box
         flex="1"
-        ml="220px"
+        ml={{ base: 0, md: "220px" }}
+        mt={{ base: "56px", md: 0 }}
         bg={colorMode === "dark" ? "gray.900" : "gray.50"}
         minH="calc(100vh - 64px)"
         p={6}
